@@ -1,7 +1,7 @@
 """Forms for the tasks app."""
 from django import forms
 
-from .models import Action
+from .models import Action, Project
 
 
 class QuickAddActionForm(forms.ModelForm):
@@ -14,6 +14,28 @@ class QuickAddActionForm(forms.ModelForm):
             "title": forms.TextInput(
                 attrs={
                     "placeholder": "What needs to get done?",
+                    "autocomplete": "off",
+                    "class": (
+                        "block w-full rounded-lg border border-slate-300 bg-white "
+                        "px-4 py-3.5 text-[17px] text-slate-900 shadow-sm "
+                        "focus:border-blue-500 focus:outline-none focus:ring-2 "
+                        "focus:ring-blue-500/40"
+                    ),
+                }
+            ),
+        }
+
+
+class QuickAddProjectForm(forms.ModelForm):
+    """The compact 'capture' form on the Projects page."""
+
+    class Meta:
+        model = Project
+        fields = ("title",)
+        widgets = {
+            "title": forms.TextInput(
+                attrs={
+                    "placeholder": "What's the outcome?",
                     "autocomplete": "off",
                     "class": (
                         "block w-full rounded-lg border border-slate-300 bg-white "

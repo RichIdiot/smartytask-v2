@@ -1,0 +1,61 @@
+<li id="project-{{ p.pk }}"
+    class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200 last:border-b-0">
+
+    <button type="button"
+            hx-post="{% url 'project_complete_toggle' p.pk %}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-target="#project-{{ p.pk }}"
+            hx-swap="outerHTML"
+            class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300 hover:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/30 flex items-center justify-center {% if p.completed_at %}bg-emerald-500 border-emerald-500{% endif %}"
+            title="Mark project complete"
+            aria-label="Mark project complete">
+        {% if p.completed_at %}
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.2 7.2a1 1 0 01-1.4 0L3.3 9.1a1 1 0 011.4-1.4L8.8 11.7l6.5-6.4a1 1 0 011.4 0z"/></svg>
+        {% endif %}
+    </button>
+
+    <div class="flex-1 min-w-0">
+        <a href="{% url 'project_detail' p.pk %}"
+           class="block text-[17px] font-medium text-slate-900 hover:text-blue-700 {% if p.completed_at %}line-through text-slate-400{% endif %}">
+            {{ p.title }}
+        </a>
+        <div class="mt-1 flex flex-wrap items-center gap-3 text-[14px] text-slate-500">
+            <span class="inline-flex items-center gap-1">
+                {% if p.action_count %}
+                    {{ p.action_count }} open action{{ p.action_count|pluralize }}
+                {% else %}
+                    No open actions
+                {% endif %}
+            </span>
+            {% if p.due_date %}
+            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 text-amber-800 px-2.5 py-0.5">Due {{ p.due_date|date:"M j" }}</span>
+            {% endif %}
+            {% if p.completed_at %}
+            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-800 px-2.5 py-0.5">Completed {{ p.completed_at|date:"M j" }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+        <button type="button"
+                hx-get="{% url 'project_edit' p.pk %}"
+                hx-target="#project-{{ p.pk }}"
+                hx-swap="outerHTML"
+                class="h-10 w-10 rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
+                title="Rename"
+                aria-label="Rename">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M17.4 3.6a2 2 0 010 2.8l-9 9a2 2 0 01-.9.5l-3.4.9.9-3.4a2 2 0 01.5-.9l9-9a2 2 0 012.8 0z"/></svg>
+        </button>
+        <button type="button"
+                hx-post="{% url 'project_delete' p.pk %}"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-target="#project-{{ p.pk }}"
+                hx-swap="outerHTML"
+                hx-confirm="Delete this project? Actions inside it stay but lose their project link."
+                class="h-10 w-10 rounded-md text-slate-400 hover:bg-rose-50 hover:text-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+                title="Delete"
+                aria-label="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg>
+        </button>
+    </div>
+</li>

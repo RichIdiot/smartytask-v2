@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} · SmartyTask{% endblock %}
+{% block content %}
+
+<nav class="mb-3 text-[14px] text-slate-500">
+    <a href="{% url 'project_list' %}" class="hover:text-slate-700">Projects</a>
+    <span class="mx-2">›</span>
+    <span>{{ project.title }}</span>
+</nav>
+
+<header class="mb-6 flex items-start justify-between gap-4">
+    <div class="min-w-0 flex-1">
+        <h1 class="text-[32px] font-bold tracking-tight text-slate-900 {% if project.completed_at %}line-through text-slate-400{% endif %}">
+            {{ project.title }}
+        </h1>
+        <p class="mt-1 text-[16px] text-slate-600">
+            {% if project.completed_at %}
+                Completed {{ project.completed_at|date:"F j, Y" }}
+            {% else %}
+                {{ actions|length }} open action{{ actions|length|pluralize }}
+            {% endif %}
+        </p>
+    </div>
+    <div class="flex items-center gap-2">
+        <form hx-post="{% url 'project_complete_toggle' project.pk %}"
+              hx-swap="none"
+              hx-on::after-request="location.href='{% url 'project_list' %}'"
+              class="inline">
+            {% csrf_token %}
+            <button type="submit"
+                    class="rounded-lg px-4 py-2.5 text-[15px] font-medium border border-slate-300 text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-500/40">
+                {% if project.completed_at %}Reopen project{% else %}Mark complete{% endif %}
+            </button>
+        </form>
+    </div>
+</header>
+
+<form hx-post="{% url 'action_create' %}"
+      hx-target="#action-list"
+      hx-swap="afterbegin"
+      hx-on::after-request="if(event.detail.successful) this.reset()"
+      class="flex items-stretch gap-3 mb-6">
+    {% csrf_token %}
+    <input type="hidden" name="status" value="next">
+    <input type="hidden" name="project_id" value="{{ project.pk }}">
+    {{ form.title }}
+    <button type="submit"
+            class="shrink-0 rounded-lg bg-blue-600 px-6 py-3.5 text-[17px] font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/40">
+        Add
+    </button>
+</form>
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <style>#action-list:has(li:not(#empty-actions)) #empty-actions { display: none; }</style>
+    <ul id="action-list">
+        {% for a in actions %}
+            {% include "tasks/_action_row.html" with a=a %}
+        {% endfor %}
+        <li id="empty-actions" class="px-6 py-12 text-center text-slate-500">
+            <div class="text-[18px] font-medium text-slate-700">No actions yet.</div>
+            <p class="mt-1 text-[15px]">Add the very next physical action this project needs.</p>
+        </li>
+    </ul>
+</div>
+
+{% if completed_actions %}
+<section class="mt-10">
+    <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">
+        Completed
+        <span class="ml-2 text-slate-400 normal-case">({{ completed_actions|length }})</span>
+    </h2>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <ul>
+            {% for a in completed_actions %}
+                {% include "tasks/_action_row.html" with a=a %}
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

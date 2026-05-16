@@ -1,0 +1,12 @@
+<form hx-post="{% url 'project_create' %}"
+      hx-target="#project-list"
+      hx-swap="afterbegin"
+      hx-on::after-request="if(event.detail.successful) this.reset()"
+      class="flex items-stretch gap-3 mb-6">
+    {% csrf_token %}
+    {{ form.title }}
+    <button type="submit"
+            class="shrink-0 rounded-lg bg-blue-600 px-6 py-3.5 text-[17px] font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/40">
+        Add
+    </button>
+</form>

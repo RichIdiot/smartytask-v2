@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Projects · SmartyTask{% endblock %}
+{% block content %}
+
+<header class="mb-6">
+    <h1 class="text-[32px] font-bold tracking-tight text-slate-900">{{ page_title }}</h1>
+    <p class="mt-1 text-[16px] text-slate-600">{{ page_subtitle }}</p>
+</header>
+
+{% include "tasks/_quick_add_project.html" with form=form %}
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <style>#project-list:has(li:not(#empty-projects)) #empty-projects { display: none; }</style>
+    <ul id="project-list">
+        {% for p in active_projects %}
+            {% include "tasks/_project_row.html" with p=p %}
+        {% endfor %}
+        <li id="empty-projects" class="px-6 py-12 text-center text-slate-500">
+            <div class="text-[18px] font-medium text-slate-700">No active projects.</div>
+            <p class="mt-1 text-[15px]">Add a project above when you have an outcome that takes more than one step.</p>
+        </li>
+    </ul>
+</div>
+
+{% if completed_projects %}
+<section class="mt-10">
+    <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">
+        Recently completed
+        <span class="ml-2 text-slate-400 normal-case">({{ completed_projects|length }})</span>
+    </h2>
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <ul>
+            {% for p in completed_projects %}
+                {% include "tasks/_project_row.html" with p=p %}
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
