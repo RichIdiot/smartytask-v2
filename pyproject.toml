@@ -1,0 +1,85 @@
+[project]
+name = "smartytask"
+version = "0.1.0"
+description = "SmartyTask v2 — David Allen's GTD as a modern web app"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+authors = [
+    { name = "Donny Farmer", email = "richidiot@gmail.com" },
+]
+
+dependencies = [
+    "django>=5.1,<5.3",
+    "psycopg[binary]>=3.2",
+    "django-environ>=0.11",
+    "django-treebeard>=4.7",
+    "whitenoise>=6.7",
+    "argon2-cffi>=23.1",
+    "gunicorn>=23.0",
+    "stripe>=11.0",
+    "markdown>=3.6",
+    "bleach>=6.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-django>=4.9",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "django-stubs>=5.0",
+    "pre-commit>=3.8",
+    "ipython>=8.27",
+    "factory-boy>=3.3",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "DJ",  # flake8-django
+    "C4",  # flake8-comprehensions
+    "RUF", # ruff-specific
+]
+ignore = [
+    "E501",  # line too long (formatter handles it)
+    "B008",  # function calls in default args (Django patterns rely on this)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/migrations/*.py" = ["E", "F", "I", "UP"]
+"**/settings/*.py" = ["F401", "F403", "F405"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "smartytask.settings.dev"
+python_files = ["test_*.py", "*_test.py", "tests.py"]
+testpaths = ["tests", "src"]
+pythonpath = ["src"]
+addopts = "--strict-markers --tb=short"
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+plugins = ["mypy_django_plugin.main"]
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "smartytask.settings.dev"
