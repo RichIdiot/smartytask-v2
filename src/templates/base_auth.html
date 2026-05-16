@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SmartyTask{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { color-scheme: light; }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+</head>
+<body class="min-h-full bg-slate-100 text-slate-900 text-[17px] antialiased">
+<div class="min-h-screen flex items-center justify-center px-5 py-10">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <a href="/" class="inline-flex items-center gap-2 text-slate-900 font-bold text-[24px]">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white">S</span>
+                SmartyTask
+            </a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-7 md:p-9">
+            <h1 class="text-[24px] font-bold text-slate-900 mb-6">{% block heading %}{% endblock %}</h1>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

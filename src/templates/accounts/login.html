@@ -1,0 +1,29 @@
+{% extends "base_auth.html" %}
+{% block title %}Sign in to SmartyTask{% endblock %}
+{% block heading %}Sign in{% endblock %}
+{% block content %}
+<form method="post" novalidate class="space-y-5">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-[15px] text-rose-800">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    <div>
+        <label for="{{ form.username.id_for_label }}" class="block text-[15px] font-medium text-slate-700 mb-2">Email</label>
+        {{ form.username }}
+        {% if form.username.errors %}<p class="mt-2 text-[14px] text-rose-700">{{ form.username.errors|join:", " }}</p>{% endif %}
+    </div>
+    <div>
+        <label for="{{ form.password.id_for_label }}" class="block text-[15px] font-medium text-slate-700 mb-2">Password</label>
+        {{ form.password }}
+        {% if form.password.errors %}<p class="mt-2 text-[14px] text-rose-700">{{ form.password.errors|join:", " }}</p>{% endif %}
+    </div>
+    <button type="submit" class="w-full rounded-lg bg-blue-600 px-5 py-3.5 text-[17px] font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/40">
+        Sign in
+    </button>
+</form>
+<p class="mt-6 text-center text-[15px] text-slate-600">
+    No account? <a href="{% url 'accounts:signup' %}" class="font-medium text-blue-600 hover:text-blue-700 underline">Create one</a>
+</p>
+{% endblock %}

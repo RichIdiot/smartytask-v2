@@ -1,20 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SmartyTask{% endblock %}</title>
-    <script src="https://unpkg.com/htmx.org@2.0.2" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    fontSize: { base: ['1.0625rem', { lineHeight: '1.6' }] }, // 17px base
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/htmx.org@2.0.2" defer></script>
+
     <style>
-        :root {
-            color-scheme: light dark;
+        :root { color-scheme: light; }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .htmx-indicator { opacity: 0; transition: opacity 200ms ease; }
+        .htmx-request .htmx-indicator,
+        .htmx-request.htmx-indicator { opacity: 1; }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
         }
     </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
-    <main class="mx-auto max-w-5xl px-6 py-10">
-        {% block content %}{% endblock %}
-    </main>
+<body class="h-full bg-slate-50 text-slate-900 text-[17px] antialiased">
+
+{% block layout %}
+<div class="min-h-full flex">
+
+    {# Sidebar #}
+    <aside class="hidden md:flex w-64 shrink-0 flex-col bg-slate-900 text-slate-100 min-h-screen">
+        <div class="px-6 py-6 border-b border-slate-800">
+            <a href="{% url 'inbox' %}" class="flex items-center gap-2 text-white font-bold text-[20px]">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white">S</span>
+                SmartyTask
+            </a>
+        </div>
+        {% include "_nav.html" %}
+        <div class="mt-auto px-6 py-5 border-t border-slate-800 text-[15px]">
+            <div class="text-slate-400 mb-1">Signed in as</div>
+            <div class="font-medium truncate text-white">{{ request.user.email }}</div>
+            <form method="post" action="{% url 'accounts:logout' %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="text-[14px] text-slate-400 hover:text-white underline">Sign out</button>
+            </form>
+        </div>
+    </aside>
+
+    {# Main area #}
+    <div class="flex-1 min-w-0">
+
+        {# Mobile top bar #}
+        <header class="md:hidden flex items-center justify-between px-5 py-4 bg-slate-900 text-white">
+            <a href="{% url 'inbox' %}" class="flex items-center gap-2 font-bold text-[18px]">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-blue-600">S</span>
+                SmartyTask
+            </a>
+            <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-[14px] text-slate-300 underline">Sign out</button>
+            </form>
+        </header>
+
+        {# Mobile nav #}
+        <nav class="md:hidden border-b border-slate-200 bg-white px-4 py-3 overflow-x-auto">
+            {% include "_nav_mobile.html" %}
+        </nav>
+
+        {# Messages #}
+        {% if messages %}
+        <div class="px-6 pt-4">
+            {% for m in messages %}
+            <div class="mb-2 rounded-lg border px-4 py-3 text-[15px]
+                {% if m.tags == 'error' %}border-rose-200 bg-rose-50 text-rose-800
+                {% elif m.tags == 'success' %}border-emerald-200 bg-emerald-50 text-emerald-800
+                {% else %}border-slate-200 bg-white text-slate-700{% endif %}">
+                {{ m }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <main class="px-5 md:px-8 py-6 md:py-8 max-w-4xl">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}
+
 </body>
 </html>

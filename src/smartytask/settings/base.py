@@ -46,6 +46,11 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 AUTH_USER_MODEL = "accounts.User"
 
+# Auth redirects
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "inbox"
+LOGOUT_REDIRECT_URL = "accounts:login"
+
 # --- Middleware ---
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

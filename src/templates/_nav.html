@@ -1,0 +1,10 @@
+{% load tasks_extras %}
+<nav class="flex-1 px-3 py-4 space-y-1">
+    {% nav_item 'inbox' 'Inbox' counts.inbox %}
+    {% nav_item 'next_actions' 'Next Actions' counts.next %}
+    {% nav_item_disabled 'Projects' counts.projects %}
+    {% nav_item_disabled 'Contexts' counts.contexts %}
+    {% nav_item_disabled 'Someday' counts.someday %}
+    {% nav_item_disabled 'Tickler' counts.tickler %}
+    {% nav_item_disabled 'Completed' counts.completed %}
+</nav>

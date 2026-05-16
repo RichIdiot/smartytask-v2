@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartyTask v2 — Static Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                fontSize: { base: ['1.0625rem', { lineHeight: '1.6' }] },
+            }}
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .preview-banner {
+            position: sticky; top: 0; z-index: 50;
+            background: #fef3c7; border-bottom: 1px solid #fcd34d;
+            padding: 10px 20px; font-size: 14px; color: #78350f; text-align: center;
+        }
+        .preview-banner strong { font-weight: 600; }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-900 text-[17px] antialiased">
+
+<div class="preview-banner">
+    <strong>STATIC PREVIEW</strong> — this is what the live UI looks like. Buttons don't do anything here. Built from the actual Django templates with fake data. Switch between Inbox and Next Actions using the tabs in the sidebar.
+</div>
+
+<div class="min-h-full flex">
+
+    <!-- Sidebar -->
+    <aside class="hidden md:flex w-64 shrink-0 flex-col bg-slate-900 text-slate-100 min-h-screen">
+        <div class="px-6 py-6 border-b border-slate-800">
+            <a href="#" class="flex items-center gap-2 text-white font-bold text-[20px]">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-white">S</span>
+                SmartyTask
+            </a>
+        </div>
+        <nav class="flex-1 px-3 py-4 space-y-1">
+            <a href="#inbox" onclick="show('inbox')" id="nav-inbox"
+               class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] bg-blue-600/15 text-white font-semibold">
+                <span>Inbox</span>
+                <span class="inline-flex items-center justify-center min-w-[28px] rounded-full bg-slate-700 text-slate-100 px-2.5 py-0.5 text-[13px] font-medium">5</span>
+            </a>
+            <a href="#next" onclick="show('next')" id="nav-next"
+               class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <span>Next Actions</span>
+                <span class="inline-flex items-center justify-center min-w-[28px] rounded-full bg-slate-700 text-slate-100 px-2.5 py-0.5 text-[13px] font-medium">7</span>
+            </a>
+            <div class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-500 cursor-not-allowed" title="Coming soon">
+                <span>Projects</span>
+                <span class="inline-flex items-center justify-center min-w-[28px] rounded-full bg-slate-800 text-slate-400 px-2.5 py-0.5 text-[13px]">12</span>
+            </div>
+            <div class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-500 cursor-not-allowed">
+                <span>Contexts</span>
+            </div>
+            <div class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-500 cursor-not-allowed">
+                <span>Someday</span>
+            </div>
+            <div class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-500 cursor-not-allowed">
+                <span>Tickler</span>
+            </div>
+            <div class="flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-500 cursor-not-allowed">
+                <span>Completed</span>
+            </div>
+        </nav>
+        <div class="mt-auto px-6 py-5 border-t border-slate-800 text-[15px]">
+            <div class="text-slate-400 mb-1">Signed in as</div>
+            <div class="font-medium truncate text-white">donny@richidiot.com</div>
+            <button class="mt-3 text-[14px] text-slate-400 hover:text-white underline">Sign out</button>
+        </div>
+    </aside>
+
+    <!-- Main area -->
+    <div class="flex-1 min-w-0">
+        <main class="px-5 md:px-8 py-6 md:py-8 max-w-4xl">
+
+            <!-- INBOX VIEW -->
+            <section id="view-inbox">
+                <header class="mb-6">
+                    <h1 class="text-[32px] font-bold tracking-tight text-slate-900">Inbox</h1>
+                    <p class="mt-1 text-[16px] text-slate-600">Capture everything. Process later.</p>
+                </header>
+
+                <form onsubmit="event.preventDefault(); return false;" class="flex items-stretch gap-3 mb-6">
+                    <input type="text" placeholder="What needs to get done?"
+                           class="block w-full rounded-lg border border-slate-300 bg-white px-4 py-3.5 text-[17px] text-slate-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                    <button type="submit" class="shrink-0 rounded-lg bg-blue-600 px-6 py-3.5 text-[17px] font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/40">
+                        Add
+                    </button>
+                </form>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <ul>
+                        <!-- Row 1 -->
+                        <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                            <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300 hover:border-emerald-500"></button>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[17px] text-slate-900">Call accountant about Q2 estimated taxes</div>
+                            </div>
+                            <div class="flex items-center gap-1 opacity-100 transition-opacity">
+                                <button class="h-10 w-10 rounded-md hover:bg-slate-100 text-slate-400" title="Star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg>
+                                </button>
+                                <button class="h-10 px-3 rounded-md text-[14px] font-medium text-blue-700 hover:bg-blue-50">Process →</button>
+                                <button class="h-10 w-10 rounded-md text-slate-400 hover:bg-rose-50 hover:text-rose-600" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg>
+                                </button>
+                            </div>
+                        </li>
+                        <!-- Row 2 -->
+                        <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                            <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300 hover:border-emerald-500"></button>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[17px] text-slate-900">Reply to Brevo support ticket about double opt-in</div>
+                            </div>
+                            <div class="flex items-center gap-1 opacity-100">
+                                <button class="h-10 w-10 rounded-md text-amber-500" title="Star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg>
+                                </button>
+                                <button class="h-10 px-3 rounded-md text-[14px] font-medium text-blue-700 hover:bg-blue-50">Process →</button>
+                                <button class="h-10 w-10 rounded-md text-slate-400" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg>
+                                </button>
+                            </div>
+                        </li>
+                        <!-- Row 3 -->
+                        <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                            <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[17px] text-slate-900">Look into Postfix DKIM rotation</div>
+                            </div>
+                            <div class="flex items-center gap-1 opacity-100">
+                                <button class="h-10 w-10 rounded-md text-slate-400" title="Star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg>
+                                </button>
+                                <button class="h-10 px-3 rounded-md text-[14px] font-medium text-blue-700 hover:bg-blue-50">Process →</button>
+                                <button class="h-10 w-10 rounded-md text-slate-400" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg>
+                                </button>
+                            </div>
+                        </li>
+                        <!-- Row 4 in edit mode -->
+                        <li class="px-4 md:px-5 py-4 bg-blue-50 border-b border-slate-200">
+                            <form onsubmit="event.preventDefault(); return false;" class="flex items-center gap-3">
+                                <input type="text" value="Draft launchlist hero copy (third attempt)" class="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-3 text-[17px] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                                <button type="submit" class="rounded-lg bg-blue-600 px-5 py-3 text-[16px] font-semibold text-white shadow-sm hover:bg-blue-700">Save</button>
+                                <button type="button" class="text-[15px] text-slate-500 hover:text-slate-700 px-3 py-3">Cancel</button>
+                            </form>
+                        </li>
+                        <!-- Row 5 -->
+                        <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50">
+                            <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[17px] text-slate-900">Schedule follow-up with Bryan re: I4I funnel</div>
+                            </div>
+                            <div class="flex items-center gap-1 opacity-100">
+                                <button class="h-10 w-10 rounded-md text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg></button>
+                                <button class="h-10 px-3 rounded-md text-[14px] font-medium text-blue-700 hover:bg-blue-50">Process →</button>
+                                <button class="h-10 w-10 rounded-md text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- NEXT ACTIONS VIEW -->
+            <section id="view-next" style="display:none">
+                <header class="mb-6">
+                    <h1 class="text-[32px] font-bold tracking-tight text-slate-900">Next Actions</h1>
+                    <p class="mt-1 text-[16px] text-slate-600">What needs doing now, grouped by where.</p>
+                </header>
+
+                <form onsubmit="event.preventDefault(); return false;" class="flex items-stretch gap-3 mb-6">
+                    <input type="text" placeholder="What needs to get done?" class="block w-full rounded-lg border border-slate-300 bg-white px-4 py-3.5 text-[17px] shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                    <button type="submit" class="shrink-0 rounded-lg bg-blue-600 px-6 py-3.5 text-[17px] font-semibold text-white shadow-sm hover:bg-blue-700">Add</button>
+                </form>
+
+                <ul class="space-y-6">
+                    <li>
+                        <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">@Computer <span class="ml-2 text-slate-400 normal-case">(3)</span></h2>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <ul>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Send Halbert-style first email to founders list</div>
+                                        <div class="mt-1 flex flex-wrap gap-2 text-[14px] text-slate-500">
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5">SmartyTask Launch</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 text-amber-800 px-2.5 py-0.5">Due May 18</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-1 opacity-100">
+                                        <button class="h-10 w-10 rounded-md text-amber-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg></button>
+                                        <button class="h-10 w-10 rounded-md text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg></button>
+                                    </div>
+                                </li>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Review Stripe price IDs for founder tier</div>
+                                        <div class="mt-1 flex flex-wrap gap-2 text-[14px] text-slate-500">
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-700 px-2.5 py-0.5">SmartyTask Launch</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-1 opacity-100">
+                                        <button class="h-10 w-10 rounded-md text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.3 1.3 6L10 14.8 4.5 17.5l1.3-6L1.2 7.2l6.2-.6L10 1z"/></svg></button>
+                                        <button class="h-10 w-10 rounded-md text-slate-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 100 2h12a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM4 8v8a2 2 0 002 2h8a2 2 0 002-2V8H4zm3 2a1 1 0 012 0v6a1 1 0 11-2 0v-6zm5-1a1 1 0 00-1 1v6a1 1 0 102 0v-6a1 1 0 00-1-1z"/></svg></button>
+                                    </div>
+                                </li>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full bg-emerald-500 border-2 border-emerald-500 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.2 7.2a1 1 0 01-1.4 0L3.3 9.1a1 1 0 011.4-1.4L8.8 11.7l6.5-6.4a1 1 0 011.4 0z"/></svg></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] line-through text-slate-400">Read REBUILD_SPEC and confirm field types</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">@Phone <span class="ml-2 text-slate-400 normal-case">(2)</span></h2>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <ul>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50 border-b border-slate-200">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Call CPA re: S-corp election deadline</div>
+                                    </div>
+                                </li>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Call insurance about umbrella policy quote</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">@Errands <span class="ml-2 text-slate-400 normal-case">(1)</span></h2>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <ul>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Drop off package at FedEx (Sugar Land)</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">No context <span class="ml-2 text-slate-400 normal-case">(1)</span></h2>
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                            <ul>
+                                <li class="group flex items-start gap-3 px-4 md:px-5 py-4 hover:bg-slate-50">
+                                    <button class="mt-1 h-7 w-7 shrink-0 rounded-full border-2 border-slate-300"></button>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[17px] text-slate-900">Decide on founder tier final price</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    function show(which) {
+        document.getElementById('view-inbox').style.display = which === 'inbox' ? 'block' : 'none';
+        document.getElementById('view-next').style.display = which === 'next' ? 'block' : 'none';
+
+        const inboxLink = document.getElementById('nav-inbox');
+        const nextLink = document.getElementById('nav-next');
+        const active = "flex items-center justify-between rounded-lg px-4 py-3 text-[16px] bg-blue-600/15 text-white font-semibold";
+        const inactive = "flex items-center justify-between rounded-lg px-4 py-3 text-[16px] text-slate-300 hover:bg-slate-800 hover:text-white transition-colors";
+        inboxLink.className = which === 'inbox' ? active : inactive;
+        nextLink.className = which === 'next' ? active : inactive;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<li id="action-{{ a.pk }}" class="px-4 md:px-5 py-4 bg-blue-50 border-b border-slate-200 last:border-b-0">
+    <form hx-post="{% url 'action_update_title' a.pk %}"
+          hx-target="#action-{{ a.pk }}"
+          hx-swap="outerHTML"
+          class="flex items-center gap-3">
+        {% csrf_token %}
+        <input type="text"
+               name="title"
+               value="{{ a.title }}"
+               autofocus
+               required
+               maxlength="256"
+               class="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-3 text-[17px] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+        <button type="submit"
+                class="rounded-lg bg-blue-600 px-5 py-3 text-[16px] font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/40">
+            Save
+        </button>
+        <button type="button"
+                hx-get="{% url 'action_edit' a.pk %}?cancel=1"
+                hx-target="#action-{{ a.pk }}"
+                hx-swap="outerHTML"
+                class="text-[15px] text-slate-500 hover:text-slate-700 px-3 py-3">
+            Cancel
+        </button>
+    </form>
+</li>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Inbox · SmartyTask{% endblock %}
+{% block content %}
+
+<header class="mb-6">
+    <h1 class="text-[32px] font-bold tracking-tight text-slate-900">{{ page_title }}</h1>
+    <p class="mt-1 text-[16px] text-slate-600">{{ page_subtitle }}</p>
+</header>
+
+{% include "tasks/_quick_add.html" with form=form default_status="inbox" %}
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <style>#action-list:has(li:not(#empty-inbox)) #empty-inbox { display: none; }</style>
+    <ul id="action-list">
+        {% for a in actions %}
+            {% include "tasks/_action_row.html" with a=a %}
+        {% endfor %}
+        <li id="empty-inbox" class="px-6 py-12 text-center text-slate-500">
+            <div class="text-[18px] font-medium text-slate-700">Inbox zero.</div>
+            <p class="mt-1 text-[15px]">Capture something above when it shows up.</p>
+        </li>
+    </ul>
+</div>
+
+{% endblock %}

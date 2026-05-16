@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Next Actions · SmartyTask{% endblock %}
+{% block content %}
+
+<header class="mb-6">
+    <h1 class="text-[32px] font-bold tracking-tight text-slate-900">{{ page_title }}</h1>
+    <p class="mt-1 text-[16px] text-slate-600">{{ page_subtitle }}</p>
+</header>
+
+{% include "tasks/_quick_add.html" with form=form default_status="next" %}
+
+<ul id="action-list" class="space-y-6">
+{% for ctx, items in groups %}
+    <li>
+        <h2 class="px-1 mb-2 text-[14px] font-semibold uppercase tracking-wider text-slate-500">
+            {% if ctx %}@{{ ctx.title }}{% else %}No context{% endif %}
+            <span class="ml-2 text-slate-400 normal-case">({{ items|length }})</span>
+        </h2>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <ul>
+                {% for a in items %}
+                    {% include "tasks/_action_row.html" with a=a %}
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+{% empty %}
+    <li class="bg-white rounded-2xl shadow-sm border border-slate-200 px-6 py-12 text-center text-slate-500">
+        <div class="text-[18px] font-medium text-slate-700">Nothing on deck.</div>
+        <p class="mt-1 text-[15px]">Process items from your Inbox to fill this up.</p>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}
